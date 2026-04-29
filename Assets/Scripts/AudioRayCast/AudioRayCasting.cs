@@ -15,14 +15,11 @@ public class AudioRayCasting : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-            CastRadialRays();
+
     }
 
     public void CastRadialRays()
     {
-        Debug.Log("Space was pressed");
-
         for (int i = 0; i < rayCastAmount; i++)
         {
             Vector3 dir = FibonacciSphere(i, rayCastAmount);

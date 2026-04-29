@@ -31,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
     private AudioSource audioSource;
     private float footstepTimer;
     private bool isMoving;
+    private float lastStep;
 
     public void Start()
     {
@@ -68,16 +69,13 @@ public class PlayerMovement : MonoBehaviour
         else
             isMoving = false;
 
-        if (isMoving)
+        if (isMoving && Time.time - lastStep >= soundTimer)
         {
-            footstepTimer -= Time.deltaTime;
-            if (footstepTimer <= 0)
-            {
-                AudioClip clip = audioClips[Random.Range(0, audioClips.Length)];
-                audioSource.PlayOneShot(clip);
-                footstepTimer = soundTimer;
-                GetComponent<AudioRayCasting>().CastRadialRays();
-            }
+            lastStep = Time.time;
+            AudioClip clip = audioClips[Random.Range(0, audioClips.Length)];
+            audioSource.PlayOneShot(clip);
+            footstepTimer = soundTimer;
+            GetComponent<AudioRayCasting>().CastRadialRays();
         }
         else
             footstepTimer = 0;
