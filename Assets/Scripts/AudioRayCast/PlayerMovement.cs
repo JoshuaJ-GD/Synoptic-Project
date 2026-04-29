@@ -49,8 +49,8 @@ public class PlayerMovement : MonoBehaviour
         xRotate = Mathf.Clamp(xRotate, -90f, 90f);
 
         // Camera Rotation
-        transform.rotation = Quaternion.Euler(xRotate, yRotate, 0);
-        camOrient.rotation = Quaternion.Euler(0, yRotate, 0);
+        transform.rotation = Quaternion.Euler(0, yRotate, 0);
+        camOrient.rotation = Quaternion.Euler(xRotate, yRotate, 0);
 
         // Ground Check
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, ground);
@@ -79,7 +79,5 @@ public class PlayerMovement : MonoBehaviour
         moveDir = playerOrient.forward * verticalInput + playerOrient.right * horizontalInput;
 
         rb.AddForce(moveDir.normalized * moveSpeed * 10f, ForceMode.Force);
-
-        if
     }
 }
