@@ -24,10 +24,13 @@ public class PlayerMovement : MonoBehaviour
     [Header("Ground Check")]
     public float playerHeight;
     public LayerMask ground;
-    bool grounded;
 
     [Header("Raycasting")]
     public float soundTimer = 1f;
+    public AudioClip[] audioClips;
+    private AudioSource audioSource;
+    private float footstepTimer;
+    private bool isMoving;
 
     public void Start()
     {
@@ -36,6 +39,10 @@ public class PlayerMovement : MonoBehaviour
 
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
     }
 
     public void Update()
@@ -52,15 +59,28 @@ public class PlayerMovement : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, yRotate, 0);
         camOrient.rotation = Quaternion.Euler(xRotate, yRotate, 0);
 
-        // Ground Check
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, ground);
-
         MyInput();
 
-        if (grounded)
-            rb.linearDamping = drag;
+        rb.linearDamping = drag;
+
+        if (horizontalInput != 0 ||  verticalInput != 0)
+            isMoving = true;
         else
-            rb.linearDamping = 0;
+            isMoving = false;
+
+        if (isMoving)
+        {
+            footstepTimer -= Time.deltaTime;
+            if (footstepTimer <= 0)
+            {
+                AudioClip clip = audioClips[Random.Range(0, audioClips.Length)];
+                audioSource.PlayOneShot(clip);
+                footstepTimer = soundTimer;
+                GetComponent<AudioRayCasting>().CastRadialRays();
+            }
+        }
+        else
+            footstepTimer = 0;
     }
 
     private void FixedUpdate()

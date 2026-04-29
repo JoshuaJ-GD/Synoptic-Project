@@ -10,8 +10,8 @@ public class AudioRayCasting : MonoBehaviour
     private Vector3 hitPoint;
     private float hitDistance;
 
-    [Header("Audio")]
-    public List<AudioClip> audioClips;
+    [Header("Particles")]
+    public ParticleSystem hitParticles;
 
     void Update()
     {
@@ -19,7 +19,7 @@ public class AudioRayCasting : MonoBehaviour
             CastRadialRays();
     }
 
-    void CastRadialRays()
+    public void CastRadialRays()
     {
         Debug.Log("Space was pressed");
 
@@ -34,7 +34,14 @@ public class AudioRayCasting : MonoBehaviour
                 hitPoint = hit.point;
                 hitDistance = hit.distance;
 
-                Debug.DrawLine(transform.position, hitPoint, Color.green, 5f);
+                ParticleSystem.EmitParams emitParams = new ParticleSystem.EmitParams();
+
+                emitParams.position = hitPoint;
+                emitParams.startLifetime = 5f;
+                emitParams.startSize = Mathf.Lerp(0.3f, 0.05f, 0.7f);
+                emitParams.startColor = Color.white;
+
+                hitParticles.Emit(emitParams, 1);
             }     
         }
     }
