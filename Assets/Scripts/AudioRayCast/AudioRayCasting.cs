@@ -1,4 +1,4 @@
-using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioRayCasting : MonoBehaviour
@@ -6,7 +6,12 @@ public class AudioRayCasting : MonoBehaviour
     [Header("Raycast Settings")]
     public int rayCastAmount = 50;
     public LayerMask mask;
+    private GameObject hitObject;
+    private Vector3 hitPoint;
+    private float hitDistance;
 
+    [Header("Audio")]
+    public List<AudioClip> audioClips;
 
     void Update()
     {
@@ -17,27 +22,22 @@ public class AudioRayCasting : MonoBehaviour
     void CastRadialRays()
     {
         Debug.Log("Space was pressed");
-        float angleStep = 360f / rayCastAmount;
 
         for (int i = 0; i < rayCastAmount; i++)
         {
             Vector3 dir = FibonacciSphere(i, rayCastAmount);
-            Ray ray = new Ray(transform.position, dir);
+            RaycastHit[] hits = Physics.RaycastAll(transform.position, dir, 100f, mask);
 
-            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, mask))
+            foreach (RaycastHit hit in hits)
             {
-                Debug.DrawRay(transform.position, dir * hit.distance, Color.green, 2f);
-            }
+                hitObject = hit.collider.gameObject;
+                hitPoint = hit.point;
+                hitDistance = hit.distance;
+
+                Debug.DrawLine(transform.position, hitPoint, Color.green, 5f);
+            }     
         }
     }
-
-    //Vector3 AngleToDirection(float angle)
-    //{
-    //    float radians = angle * Mathf.Deg2Rad;
-
-    //    return new Vector3(Mathf.Cos(radians), 0, Mathf.Sin(radians));
-    //}
-
     Vector3 FibonacciSphere(int index, int total)
     {
         float goldenRatio = (1 + Mathf.Sqrt(5)) / 2;
