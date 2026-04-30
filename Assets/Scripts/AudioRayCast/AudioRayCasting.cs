@@ -9,21 +9,19 @@ public class AudioRayCasting : MonoBehaviour
     private GameObject hitObject;
     private Vector3 hitPoint;
     private float hitDistance;
-
+    private float dampening;
+  
     [Header("Particles")]
     public ParticleSystem hitParticles;
-
-    void Update()
-    {
-
-    }
 
     public void CastRadialRays()
     {
         for (int i = 0; i < rayCastAmount; i++)
         {
+
             Vector3 dir = FibonacciSphere(i, rayCastAmount);
             RaycastHit[] hits = Physics.RaycastAll(transform.position, dir, 100f, mask);
+            float remainingIntens = 1f;
 
             foreach (RaycastHit hit in hits)
             {
@@ -31,11 +29,21 @@ public class AudioRayCasting : MonoBehaviour
                 hitPoint = hit.point;
                 hitDistance = hit.distance;
 
+                MaterialDampening material = hitObject.GetComponentInParent<MaterialDampening>();
+                if (material != null)
+                    dampening = material.dampeningCoefficient;
+                else
+                    dampening = 0.7f;
+
+                remainingIntens *= (1 - dampening);
+
+                if (remainingIntens < 0.01) break;
+
                 ParticleSystem.EmitParams emitParams = new ParticleSystem.EmitParams();
 
                 emitParams.position = hitPoint;
                 emitParams.startLifetime = 5f;
-                emitParams.startSize = Mathf.Lerp(0.3f, 0.05f, 0.7f);
+                emitParams.startSize = Mathf.Lerp(0.3f, 0.05f, remainingIntens);
                 emitParams.startColor = Color.white;
 
                 hitParticles.Emit(emitParams, 1);
