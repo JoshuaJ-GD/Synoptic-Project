@@ -18,7 +18,6 @@ public class AudioRayCasting : MonoBehaviour
     {
         for (int i = 0; i < rayCastAmount; i++)
         {
-
             Vector3 dir = FibonacciSphere(i, rayCastAmount);
             RaycastHit[] hits = Physics.RaycastAll(transform.position, dir, 100f, mask);
             float remainingIntens = 1f;
@@ -43,7 +42,7 @@ public class AudioRayCasting : MonoBehaviour
 
                 emitParams.position = hitPoint;
                 emitParams.startLifetime = 5f;
-                emitParams.startSize = Mathf.Lerp(0.3f, 0.05f, remainingIntens);
+                emitParams.startSize = Mathf.Lerp(0.05f, 0.3f, remainingIntens);
                 emitParams.startColor = Color.white;
 
                 hitParticles.Emit(emitParams, 1);
