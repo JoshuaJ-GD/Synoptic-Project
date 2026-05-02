@@ -41,9 +41,13 @@ public class AudioRayCasting : MonoBehaviour
                 ParticleSystem.EmitParams emitParams = new ParticleSystem.EmitParams();
 
                 emitParams.position = hitPoint;
-                emitParams.startLifetime = 5f;
+                emitParams.startLifetime = 1.5f;
                 emitParams.startSize = Mathf.Lerp(0.05f, 0.3f, remainingIntens);
-                emitParams.startColor = Color.white;
+
+                if (hitObject.tag == "PuzzlePiece")
+                    emitParams.startColor = Color.blue;
+                else
+                    emitParams.startColor = Color.white;
 
                 hitParticles.Emit(emitParams, 1);
             }     
