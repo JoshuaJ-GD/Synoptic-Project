@@ -11,6 +11,9 @@ public class LivingRoomPuzzle : MonoBehaviour
     public float maxDist = 15f;
     public float minDist = 4f;
 
+    [Header("Dialogue")]
+    public string radioOffKnotName = "radio_off";
+
     private Transform player;
     private bool radioStatus = false;
 
@@ -61,6 +64,8 @@ public class LivingRoomPuzzle : MonoBehaviour
 
         tag = "Untagged";
 
-        yield return null;
+        yield return new WaitForSeconds(1f);
+
+        DialogueManager.Instance.StartDialogue(radioOffKnotName);
     }
 }
