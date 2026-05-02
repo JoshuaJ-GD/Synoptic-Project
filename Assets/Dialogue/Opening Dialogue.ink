@@ -1,6 +1,6 @@
 === front_door ===
 Thank god I made it home.
-I've got to apply for one of those "Guide dogs".
+I've got to apply for one of those 'Guide dogs'.
 Is this even my house?
 Only one way to find out...
 HELLO! IS ANYONE HERE?

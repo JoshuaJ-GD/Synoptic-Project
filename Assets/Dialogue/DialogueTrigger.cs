@@ -12,8 +12,10 @@ public class DialogueTrigger : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Player")) return;
+        if (!other.CompareTag("Player")) { Debug.Log("other tag"); return; }
         if (triggerOnce && hasTriggered) return;
+
+        Debug.Log("starting dialogue");
 
         hasTriggered = true;
         DialogueManager.Instance.StartDialogue(knotName);

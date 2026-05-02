@@ -16,6 +16,8 @@ public class DialogueManager : MonoBehaviour
     public TextMeshProUGUI dialogueText;
     public TextMeshProUGUI promptText;
 
+    public PlayerMovement playerMovement;
+
     private Story story;
     private bool isDisplaying = false;
 
@@ -52,9 +54,12 @@ public class DialogueManager : MonoBehaviour
         isDisplaying = true;
         promptText.text = "";
 
+        playerMovement.enabled = false;
+
         while (story.canContinue)
         {
             string text = story.Continue();
+            dialogueText.text = text;
 
             promptText.text = "[E] Continue";
 
@@ -73,6 +78,7 @@ public class DialogueManager : MonoBehaviour
         dialoguePanel.SetActive(false);
         dialogueText.text = "";
         promptText.text = "";
+        playerMovement.enabled = true;
     }
 
     public bool IsDisplaying()
