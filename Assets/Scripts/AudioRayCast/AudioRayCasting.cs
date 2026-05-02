@@ -56,17 +56,9 @@ public class AudioRayCasting : MonoBehaviour
 
     float ProcessHit(RaycastHit hit, float intensity)
     {
-        MaterialDampening material = hit.collider.GetComponentInParent<MaterialDampening>();
+        float dampening = GetDampeningFromTag(hit.collider.tag);
 
-        float dampening;
-        if (material != null)
-            dampening = material.dampeningCoefficient;
-        else
-            dampening = 0.7f;
-
-        float distanceDampening = 1f / (1f + hit.distance * 0.1f);
-
-        intensity *= (1 - dampening) * distanceDampening;
+        intensity *= (1 - dampening);
 
         if (intensity < 0.01f) return intensity;
 
@@ -74,7 +66,7 @@ public class AudioRayCasting : MonoBehaviour
 
         emitParams.position = hit.point;
         emitParams.startLifetime = 1.5f;
-        emitParams.startSize = Mathf.Lerp(0.05f, 0.3f, intensity);
+        emitParams.startSize = Mathf.Lerp(0.02f, 0.8f, intensity);
 
         if (hit.collider.CompareTag("PuzzlePiece"))
             emitParams.startColor = Color.blue;
@@ -95,5 +87,16 @@ public class AudioRayCasting : MonoBehaviour
             Mathf.Cos(phi),
             Mathf.Sin(phi) * Mathf.Sin(theta)
         );
+    }
+    public float GetDampeningFromTag(string tag)
+    {
+        switch (tag)
+        {
+            case "Stone": return 0.05f;
+            case "Wood": return 0.35f;
+            case "Carpet": return 0.9f;
+            case "PuzzlePiece": return 0f;
+            default: return 0.3f;
+        }
     }
 }
