@@ -6,7 +6,10 @@ public class LivingRoomPuzzle : MonoBehaviour
     [Header("Radio")]
     public AudioSource radio;
     public AudioClip radioSound;
+    public AudioClip radioTurnOff;
     public float detectRadius = 2f;
+    public float maxDist = 15f;
+    public float minDist = 4f;
 
     private Transform player;
     private bool radioStatus = false;
@@ -15,6 +18,7 @@ public class LivingRoomPuzzle : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        tag = "PuzzlePiece";
 
         radio.clip = radioSound;
         radio.loop = true;
@@ -26,16 +30,22 @@ public class LivingRoomPuzzle : MonoBehaviour
     {
         if (radioStatus) return;
 
-        while (!radioStatus)
+        float dist = Vector3.Distance(transform.position, player.position);
+        float distVol = Mathf.Clamp01(1f - (dist - minDist) / (maxDist - minDist));
+        float targetVol = distVol * 0.5f;
+
+        Physics.Raycast(transform.position, (player.position - transform.position).normalized, out RaycastHit hit);
+
+        if (hit.collider != null)
         {
-            Physics.Raycast(transform.position, (player.position - transform.position).normalized, out RaycastHit hit);
             if (hit.collider.gameObject.layer == 6)
-                radio.volume = 0.1f;
-            else if (hit.collider.gameObject.tag == "Player")
-                radio.volume = 1f;
+                targetVol *= 0.2f;
+            else if (hit.collider.CompareTag("Player"))
+                targetVol = distVol * 1f;
         }
 
-        float dist = Vector3.Distance(transform.position, player.position);
+        radio.volume = targetVol;
+
         if (dist <= detectRadius) StartCoroutine(RadioOff());
     }
 
@@ -44,6 +54,13 @@ public class LivingRoomPuzzle : MonoBehaviour
         radioStatus = true;
 
         radio.Stop();
+        radio.clip = radioTurnOff;
+        radio.loop = false;
+        radio.time = 1f;
+        radio.Play();
+
+        tag = "Untagged";
+
         yield return null;
     }
 }

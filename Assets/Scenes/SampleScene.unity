@@ -1164,7 +1164,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radio: {fileID: 1332352718}
   radioSound: {fileID: 8300000, guid: f3ccb43e62d19e94893d141dbc3b8690, type: 3}
+  radioTurnOff: {fileID: 8300000, guid: 1ce6f19435a5eb84e998e3792d98b921, type: 3}
   detectRadius: 2
+  maxDist: 15
+  minDist: 4
 --- !u!64 &443023615
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -21969,7 +21972,7 @@ GameObject:
   - component: {fileID: 1628239622}
   m_Layer: 3
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
