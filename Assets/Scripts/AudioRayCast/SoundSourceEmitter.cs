@@ -4,7 +4,7 @@ public class SoundSourceEmitter : MonoBehaviour
 {
     public AudioSource audioSource;
     public AudioRayCasting rayCaster;
-    public float interval = 1.0f;
+    public float interval = 3.0f;
     private float timer;
 
     private void Update()
@@ -15,7 +15,14 @@ public class SoundSourceEmitter : MonoBehaviour
         if (timer >= interval)
         {
             timer = 0f;
-            rayCaster.CastRadialRays(transform.position);
+            
+            rayCaster.CastRadialRays(transform.position, 8);
+            
         }
+    }
+
+    public void StopEmitting()
+    {
+        enabled = false;
     }
 }

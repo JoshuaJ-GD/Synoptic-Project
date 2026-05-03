@@ -14,36 +14,25 @@ public class AudioRayCasting : MonoBehaviour
         CastRadialRays(transform.position);
     }
 
-    public void CastRadialRays(Vector3 origin)
+    public void CastRadialRays(Vector3 origin, int rayCount = -1)
     {
+        int count;
+
+        if (rayCount == -1)
+            count = rayCastAmount;
+        else
+            count = rayCount;
+
         for (int i = 0; i < rayCastAmount; i++)
         {
             Vector3 dir = FibonacciSphere(i, rayCastAmount);
-
-            RaycastHit[] hits = Physics.RaycastAll(origin, dir, 100f, mask);
-
-            System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
-
-            float remainingIntens = 1f;
-
-            foreach (RaycastHit hit in hits)
-            {
-                remainingIntens = ProcessHit(hit, remainingIntens);
-
-                if (remainingIntens < 0.01f) break;
-                else
-                {
-                    Vector3 reflectDir = Vector3.Reflect(dir, hit.normal);
-                    Vector3 reflectOrigin = hit.point + hit.normal * 0.01f;
-                    ProcessReflection(reflectOrigin, reflectDir, remainingIntens);
-                }
-            }
+            CastSingleRay(transform.position, dir);
         }
     }
 
     void ProcessReflection(Vector3 origin, Vector3 direction, float intensity)
     {
-        RaycastHit[] hits = Physics.RaycastAll(origin, direction, 100f, mask);
+        RaycastHit[] hits = Physics.RaycastAll(origin, direction, 5f, mask);
 
         System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
 
@@ -75,6 +64,28 @@ public class AudioRayCasting : MonoBehaviour
 
         hitParticles.Emit(emitParams, 1);
         return intensity;
+    }
+
+    public void CastSingleRay(Vector3 origin, Vector3 direction)
+    {
+        RaycastHit[] hits = Physics.RaycastAll(origin, direction, 5f, mask);
+
+        System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+
+        float remainingIntens = 1f;
+
+        foreach (RaycastHit hit in hits)
+        {
+            remainingIntens = ProcessHit(hit, remainingIntens);
+
+            if (remainingIntens < 0.01f) break;
+            else
+            {
+                Vector3 reflectDir = Vector3.Reflect(direction, hit.normal);
+                Vector3 reflectOrigin = hit.point + hit.normal * 0.01f;
+                ProcessReflection(reflectOrigin, reflectDir, remainingIntens);
+            }
+        }
     }
 
     Vector3 FibonacciSphere(int index, int total)
