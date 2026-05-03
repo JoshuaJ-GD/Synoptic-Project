@@ -53,4 +53,9 @@ nah thats not it, gotta look around a bit more
 
 === safe_correct ===
 YES! That's it!
+Whats that noise?
+-> END
+
+=== caught ===
+fuck they caught me...
 -> END

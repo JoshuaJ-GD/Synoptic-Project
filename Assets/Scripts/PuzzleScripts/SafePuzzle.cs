@@ -11,10 +11,12 @@ public class SafePuzzle : MonoBehaviour
     public string notReadyKnot = "safe_not_ready";
     public string wrongCodeKnot = "safe_wrong";
     public string correctCodeKnot = "safe_correct";
-    
+
+    public GameObject enemy;
+    public GameObject enemySpawnPoint;
 
     private Transform player;
-    private bool safeSolved = false;
+    public static bool safeSolved = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -55,6 +57,11 @@ public class SafePuzzle : MonoBehaviour
 
         DialogueManager.Instance.StartDialogue(correctCodeKnot);
 
-        yield return null;
+        yield return new WaitForSeconds(2f);
+
+        enemy.SetActive(true);
+        enemy.transform.position = enemySpawnPoint.transform.position;
+
+        enemy.GetComponent<EnemyBehaviour>().StartChasing();
     }
 }

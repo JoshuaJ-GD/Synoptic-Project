@@ -8,6 +8,7 @@ public class AudioRayCasting : MonoBehaviour
 
     [Header("Particles")]
     public ParticleSystem hitParticles;
+    public Color color = Color.white;
 
     public void CastRadialRays()
     {
@@ -55,12 +56,12 @@ public class AudioRayCasting : MonoBehaviour
 
         emitParams.position = hit.point;
         emitParams.startLifetime = 1.5f;
-        emitParams.startSize = Mathf.Lerp(0.02f, 0.8f, intensity);
+        emitParams.startSize = Mathf.Lerp(0.02f, 0.3f, intensity);
 
         if (hit.collider.CompareTag("PuzzlePiece"))
             emitParams.startColor = Color.blue;
         else
-            emitParams.startColor = Color.white;
+            emitParams.startColor = color;
 
         hitParticles.Emit(emitParams, 1);
         return intensity;

@@ -27,6 +27,13 @@ public class SafeClue : MonoBehaviour
 
         float dist = Vector3.Distance(transform.position, player.position);
 
+        Debug.Log($"Distance: {dist} | InteractDist: {interactDist}");
+
+        if (dist <= interactDist)
+            UIPromptScript.instance.Show();  
+        else
+            UIPromptScript.instance.Hide();
+
         if (dist <= interactDist && Input.GetKeyDown(KeyCode.E) && !DialogueManager.Instance.IsDisplaying())
             FindClue();
     }
@@ -34,6 +41,7 @@ public class SafeClue : MonoBehaviour
     void FindClue()
     {
         found = true;
+        UIPromptScript.instance.Hide();
         cluesFound++;
         codeSlots[codePosition] = codeDigit.ToString();
         gameObject.tag = "Untagged";
