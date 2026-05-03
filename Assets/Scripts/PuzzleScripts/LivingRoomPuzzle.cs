@@ -16,6 +16,7 @@ public class LivingRoomPuzzle : MonoBehaviour
 
     private Transform player;
     private bool radioStatus = false;
+    private bool radioStarted = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -25,7 +26,6 @@ public class LivingRoomPuzzle : MonoBehaviour
 
         radio.clip = radioSound;
         radio.loop = true;
-        radio.Play();
     }
 
     // Update is called once per frame
@@ -67,5 +67,14 @@ public class LivingRoomPuzzle : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         DialogueManager.Instance.StartDialogue(radioOffKnotName);
+    }
+
+    public void ActivateRadio()
+    {
+        if (radioStatus) return;
+        radioStarted = true;
+        radio.clip = radioSound;
+        radio.loop = true;
+        radio.Play();
     }
 }
