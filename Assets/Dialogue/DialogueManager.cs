@@ -43,7 +43,7 @@ public class DialogueManager : MonoBehaviour
     public void StartDialogue(string knotName)
     {
         if (isDisplaying) return;
-
+        story = new Story(inkJSON.text);
         story.ChoosePathString(knotName);
         dialoguePanel.SetActive(true);
         StartCoroutine(RunDialogue());
@@ -56,15 +56,27 @@ public class DialogueManager : MonoBehaviour
 
         playerMovement.enabled = false;
 
+        if (story.canContinue)
+        {
+            string text = story.Continue();
+
+            dialogueText.text = text;
+            promptText.text = "[E] Continue";
+
+            yield return null;
+            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
+
+            yield return new WaitForSeconds(0.1f);
+            promptText.text = "";
+        }
+
         while (story.canContinue)
         {
             string text = story.Continue();
             dialogueText.text = text;
-
             promptText.text = "[E] Continue";
 
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
-
             yield return new WaitForSeconds(0.1f);
             promptText.text = "";
         }

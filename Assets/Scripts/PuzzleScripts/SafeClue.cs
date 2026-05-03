@@ -4,19 +4,20 @@ public class SafeClue : MonoBehaviour
 {
     public string dialogueKnot;
     public int codeDigit;
+    public int codePosition;
     public float interactDist = 1.5f;
 
     private Transform player;
     private bool found = false;
 
     public static int cluesFound = 0;
-    public static string foundCode = "";
+    public static string[] codeSlots = new string[3];
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         cluesFound = 0;
-        foundCode = "";
+        codeSlots = new string[3];
     }
 
     // Update is called once per frame
@@ -34,7 +35,13 @@ public class SafeClue : MonoBehaviour
     {
         found = true;
         cluesFound++;
-        foundCode += codeDigit.ToString();
+        codeSlots[codePosition] = codeDigit.ToString();
+        gameObject.tag = "Untagged";
         DialogueManager.Instance.StartDialogue(dialogueKnot);
+    }
+
+    public static string GetFoundCode()
+    {
+        return string.Join("", codeSlots);
     }
 }

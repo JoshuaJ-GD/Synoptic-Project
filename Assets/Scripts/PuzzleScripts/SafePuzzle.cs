@@ -11,6 +11,7 @@ public class SafePuzzle : MonoBehaviour
     public string notReadyKnot = "safe_not_ready";
     public string wrongCodeKnot = "safe_wrong";
     public string correctCodeKnot = "safe_correct";
+    
 
     private Transform player;
     private bool safeSolved = false;
@@ -19,6 +20,8 @@ public class SafePuzzle : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        SafeClue.cluesFound = 0;
     }
 
     // Update is called once per frame
@@ -34,13 +37,13 @@ public class SafePuzzle : MonoBehaviour
 
     void TryOpenSafe()
     {
-        if (SafePuzzle.cluesFound < 3)
+        if (SafeClue.cluesFound < 3)
         {
             DialogueManager.Instance.StartDialogue(notReadyKnot);
             return;
         }
 
-        if (SafePuzzle.foundCode == correctCode)
+        if (SafeClue.GetFoundCode() == correctCode)
             StartCoroutine(OpenSafe());
         else
             DialogueManager.Instance.StartDialogue(wrongCodeKnot);
