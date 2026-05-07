@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class EnemyBehaviour : MonoBehaviour
 {
-    private float chaseSpeed = 5f;
+    private float chaseSpeed = 3;
     public float catchDistance = 1.5f;
     public string caughtDialogue = "caught";
     public GameObject door;

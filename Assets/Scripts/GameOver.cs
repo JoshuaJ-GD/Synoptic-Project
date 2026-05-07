@@ -24,13 +24,13 @@ public class GameOver : MonoBehaviour
         {
             gameOverText.text = "YOU ESCAPED!";
             gameOverText2.text = "but what was that...?";
-            gameOverText3.text = "Press any key to quit.";
+            gameOverText3.text = "Press space to quit.";
         }
         else
         {
             gameOverText.text = "GAME OVER";
             gameOverText2.text = "The darkness has consumed you..";
-            gameOverText3.text = "Press any key to quit.";
+            gameOverText3.text = "Press space to quit.";
         }
 
         StartCoroutine(FadeIn());
@@ -38,7 +38,7 @@ public class GameOver : MonoBehaviour
 
     private void Update()
     {
-        if (Input.anyKeyDown)
+        if (Input.GetKeyDown(KeyCode.Space))
             Application.Quit();
     }
 

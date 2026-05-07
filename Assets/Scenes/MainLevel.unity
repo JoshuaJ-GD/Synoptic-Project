@@ -3858,7 +3858,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -3867,9 +3867,9 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: 3516092711970210156, guid: 03036d307fa665b439b8948b67b0e2b6, type: 3}
 --- !u!1001 &553552395
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4120,7 +4120,7 @@ MonoBehaviour:
   dialogueKnot: clue_one
   codeDigit: 6
   codePosition: 1
-  interactDist: 4
+  interactDist: 2
 --- !u!1001 &579649855
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7150,7 +7150,7 @@ MonoBehaviour:
   dialogueKnot: clue_two
   codeDigit: 9
   codePosition: 2
-  interactDist: 1.5
+  interactDist: 2.5
 --- !u!1 &1039766291
 GameObject:
   m_ObjectHideFlags: 0
@@ -18049,6 +18049,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: d43c9465a05f2574fb046b036f2c6083, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 61d0526dc921a274792cf80a4181f654, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d43c9465a05f2574fb046b036f2c6083, type: 2}
     - target: {fileID: 919132149155446097, guid: 61d0526dc921a274792cf80a4181f654, type: 3}
       propertyPath: m_Name
       value: Pot
@@ -19894,8 +19898,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_characterHorizontalScale: 1
